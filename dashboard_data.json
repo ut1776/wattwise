@@ -1,0 +1,179 @@
+{
+  "carbon_curve": [
+    414.7,
+    389.5,
+    384.5,
+    347.2,
+    351.1,
+    356.0,
+    406.7,
+    480.2,
+    506.1,
+    498.0,
+    447.1,
+    387.7,
+    347.7,
+    329.8,
+    288.7,
+    301.7,
+    343.8,
+    413.4,
+    472.3,
+    506.9,
+    514.3,
+    456.4,
+    460.8,
+    423.7
+  ],
+  "naive_jobs": [
+    {
+      "name": "Batch inference #1",
+      "priority": 1,
+      "duration_hours": 3.1,
+      "gpu_count": 2,
+      "deadline_hour": 13,
+      "started_hour": 0,
+      "carbon_gCO2": 771.3
+    },
+    {
+      "name": "Model eval #2",
+      "priority": 1,
+      "duration_hours": 2.9,
+      "gpu_count": 1,
+      "deadline_hour": 19,
+      "started_hour": 0,
+      "carbon_gCO2": 360.8
+    },
+    {
+      "name": "LLM fine-tuning #3",
+      "priority": 1,
+      "duration_hours": 0.8,
+      "gpu_count": 2,
+      "deadline_hour": 22,
+      "started_hour": 0,
+      "carbon_gCO2": 199.1
+    },
+    {
+      "name": "LLM fine-tuning #4",
+      "priority": 5,
+      "duration_hours": 1.2,
+      "gpu_count": 8,
+      "deadline_hour": 13,
+      "started_hour": 0,
+      "carbon_gCO2": 1194.3
+    },
+    {
+      "name": "Vector index build #5",
+      "priority": 5,
+      "duration_hours": 1.5,
+      "gpu_count": 1,
+      "deadline_hour": 11,
+      "started_hour": 0,
+      "carbon_gCO2": 186.6
+    },
+    {
+      "name": "Nightly retrain #6",
+      "priority": 3,
+      "duration_hours": 1.5,
+      "gpu_count": 2,
+      "deadline_hour": 16,
+      "started_hour": 0,
+      "carbon_gCO2": 373.2
+    },
+    {
+      "name": "Batch inference #7",
+      "priority": 1,
+      "duration_hours": 1.8,
+      "gpu_count": 4,
+      "deadline_hour": 17,
+      "started_hour": 0,
+      "carbon_gCO2": 895.8
+    },
+    {
+      "name": "Embedding generation #8",
+      "priority": 1,
+      "duration_hours": 3.1,
+      "gpu_count": 1,
+      "deadline_hour": 18,
+      "started_hour": 0,
+      "carbon_gCO2": 385.7
+    }
+  ],
+  "smart_jobs": [
+    {
+      "name": "Batch inference #1",
+      "priority": 1,
+      "duration_hours": 3.1,
+      "gpu_count": 2,
+      "deadline_hour": 13,
+      "started_hour": 3,
+      "carbon_gCO2": 645.8
+    },
+    {
+      "name": "Model eval #2",
+      "priority": 1,
+      "duration_hours": 2.9,
+      "gpu_count": 1,
+      "deadline_hour": 19,
+      "started_hour": 14,
+      "carbon_gCO2": 251.2
+    },
+    {
+      "name": "LLM fine-tuning #3",
+      "priority": 1,
+      "duration_hours": 0.8,
+      "gpu_count": 2,
+      "deadline_hour": 22,
+      "started_hour": 14,
+      "carbon_gCO2": 138.6
+    },
+    {
+      "name": "LLM fine-tuning #4",
+      "priority": 5,
+      "duration_hours": 1.2,
+      "gpu_count": 8,
+      "deadline_hour": 13,
+      "started_hour": 0,
+      "carbon_gCO2": 1194.3
+    },
+    {
+      "name": "Vector index build #5",
+      "priority": 5,
+      "duration_hours": 1.5,
+      "gpu_count": 1,
+      "deadline_hour": 11,
+      "started_hour": 0,
+      "carbon_gCO2": 186.6
+    },
+    {
+      "name": "Nightly retrain #6",
+      "priority": 3,
+      "duration_hours": 1.5,
+      "gpu_count": 2,
+      "deadline_hour": 16,
+      "started_hour": 14,
+      "carbon_gCO2": 259.8
+    },
+    {
+      "name": "Batch inference #7",
+      "priority": 1,
+      "duration_hours": 1.8,
+      "gpu_count": 4,
+      "deadline_hour": 17,
+      "started_hour": 14,
+      "carbon_gCO2": 623.6
+    },
+    {
+      "name": "Embedding generation #8",
+      "priority": 1,
+      "duration_hours": 3.1,
+      "gpu_count": 1,
+      "deadline_hour": 18,
+      "started_hour": 14,
+      "carbon_gCO2": 268.5
+    }
+  ],
+  "naive_total": 4366.8,
+  "smart_total": 3568.4,
+  "savings_pct": 18.3
+}

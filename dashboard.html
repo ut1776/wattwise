@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WattWise Dashboard</title>
+<style>
+  body {
+    font-family: -apple-system, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    margin: 0;
+    padding: 24px;
+  }
+  h1 { font-size: 28px; margin-bottom: 4px; }
+  .subtitle { color: #94a3b8; margin-bottom: 24px; }
+  .stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .stat-card {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 16px 20px;
+    flex: 1;
+    min-width: 160px;
+  }
+  .stat-label { color: #94a3b8; font-size: 13px; }
+  .stat-value { font-size: 28px; font-weight: 700; margin-top: 4px; }
+  .savings { color: #4ade80; }
+  .naive { color: #f87171; }
+  .smart { color: #60a5fa; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1e293b;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  th, td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid #334155;
+    font-size: 14px;
+  }
+  th { color: #94a3b8; font-weight: 600; }
+  .curve-container {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 120px;
+    margin-top: 12px;
+  }
+  .bar {
+    flex: 1;
+    background: linear-gradient(to top, #f87171, #fbbf24, #4ade80);
+    border-radius: 2px 2px 0 0;
+    min-width: 8px;
+  }
+  .bar-labels {
+    display: flex;
+    gap: 3px;
+    margin-top: 4px;
+    font-size: 10px;
+    color: #64748b;
+  }
+  .bar-labels span { flex: 1; text-align: center; }
+</style>
+</head>
+<body>
+
+<h1>⚡ WattWise</h1>
+<p class="subtitle">Carbon-aware GPU workload scheduling</p>
+
+<div class="stats">
+  <div class="stat-card">
+    <div class="stat-label">Naive Scheduling</div>
+    <div class="stat-value naive" id="naive-total">–</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">WattWise Scheduling</div>
+    <div class="stat-value smart" id="smart-total">–</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Carbon Saved</div>
+    <div class="stat-value savings" id="savings-pct">–</div>
+  </div>
+</div>
+
+<div class="curve-container">
+  <strong>24-Hour Grid Carbon Intensity (gCO2/kWh)</strong>
+  <div class="bar-chart" id="carbon-bars"></div>
+  <div class="bar-labels" id="carbon-labels"></div>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Job</th>
+      <th>Priority</th>
+      <th>Naive Start</th>
+      <th>Smart Start</th>
+      <th>Naive Carbon</th>
+      <th>Smart Carbon</th>
+    </tr>
+  </thead>
+  <tbody id="job-rows"></tbody>
+</table>
+
+<script>
+fetch('dashboard_data.json')
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('naive-total').textContent = data.naive_total + ' gCO2';
+    document.getElementById('smart-total').textContent = data.smart_total + ' gCO2';
+    document.getElementById('savings-pct').textContent = data.savings_pct + '%';
+
+    const maxCarbon = Math.max(...data.carbon_curve);
+    const barsEl = document.getElementById('carbon-bars');
+    const labelsEl = document.getElementById('carbon-labels');
+    data.carbon_curve.forEach((val, hour) => {
+      const bar = document.createElement('div');
+      bar.className = 'bar';
+      bar.style.height = (val / maxCarbon * 100) + '%';
+      bar.title = `Hour ${hour}: ${val} gCO2/kWh`;
+      barsEl.appendChild(bar);
+
+      if (hour % 3 === 0) {
+        const label = document.createElement('span');
+        label.textContent = hour + 'h';
+        labelsEl.appendChild(label);
+      } else {
+        const label = document.createElement('span');
+        labelsEl.appendChild(label);
+      }
+    });
+
+    const rowsEl = document.getElementById('job-rows');
+    data.naive_jobs.forEach((naiveJob, i) => {
+      const smartJob = data.smart_jobs[i];
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${naiveJob.name}</td>
+        <td>${naiveJob.priority}</td>
+        <td>${naiveJob.started_hour}h</td>
+        <td>${smartJob.started_hour}h</td>
+        <td>${naiveJob.carbon_gCO2} gCO2</td>
+        <td>${smartJob.carbon_gCO2} gCO2</td>
+      `;
+      rowsEl.appendChild(row);
+    });
+  });
+</script>
+
+</body>
+</html>
